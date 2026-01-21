@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <title>Building F622 Registry</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+  </head>
+  <body>
+    <div id="loading" class="loading hidden">جاري التحميل...</div>
+
+    <div class="card">
+      <h1>تسجيل ملاك برج F622</h1>
+
+      <form id="form">
+        <label>اختر الطابق <span class="required">*</span></label>
+        <select id="floor">
+          <option value="" disabled selected>اختر الطابق</option>
+          <option value="0">الطابق الأرضي</option>
+          <option value="1">الطابق الأول</option>
+          <option value="2">الطابق الثاني</option>
+          <option value="3">الطابق الثالث</option>
+        </select>
+
+        <label>اختر رقم الشقة <span class="required">*</span></label>
+        <small class="hint">
+          لو عندك شقتين من فضلك اختر الشقتين
+        </small>
+        <div id="apartmentsContainer" class="checkbox-grid"></div>
+        <small id="apartmentError" class="error"></small>
+
+        <label>اسم المالك <span class="required">*</span></label>
+        <input id="name" placeholder="مثال: أحمد محمد" required>
+        <small class="hint">
+          يفضل كتابة الاسم باللغة العربية
+        </small>
+
+        <label>رقم التليفون <span class="required">*</span></label>
+        <input id="phone" 
+        placeholder="01xxxxxxxxx" 
+        inputmode="numeric"
+        pattern="^\+?[0-9]{11,}$"
+        minlength="11"
+        maxlength="18"
+        required>
+
+        <label>هل الشقة بها مستأجر؟ </label>
+        <div class="radio-group">
+          <label><input type="radio" name="rented" value="yes"> نعم</label>
+          <label><input type="radio" name="rented" value="no"> لا</label>
+        </div>
+
+        <button type="submit">تسجيل</button>
+      </form>
+    </div>
+
+    <div id="successOverlay" class="overlay hidden">
+      <div class="modal">
+        <p>تم التسجيل بنجاح ✅</p>
+        <button id="refreshBtn" type="button">تحديث</button>
+      </div>
+    </div>
+
+    <div id="stats" class="stats">
+      <span id="totalCount"></span>
+      <span id="registeredCount"></span>
+      <span id="remainingCount"></span>
+    </div>
+
+    <div class="card list-card">
+      <div class="export-buttons">
+        <button id="exportExcel">Export as Excel</button>
+        <!-- <button id="exportPdf">Export as PDF</button> -->
+      </div>
+      <h2>الشقق المسجلة</h2>
+      <ul id="list"></ul>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
