@@ -24,31 +24,75 @@
         </select>
 
         <label>اختر رقم الشقة <span class="required">*</span></label>
-        <small class="hint">
-          لو عندك شقتين من فضلك اختر الشقتين
-        </small>
+        <small class="hint">لو عندك شقتين من فضلك اختر الشقتين</small>
         <div id="apartmentsContainer" class="checkbox-grid"></div>
         <small id="apartmentError" class="error"></small>
 
         <label>اسم المالك <span class="required">*</span></label>
         <input id="name" placeholder="مثال: أحمد محمد" required>
-        <small class="hint">
-          يفضل كتابة الاسم باللغة العربية
-        </small>
+        <small class="hint">يفضل كتابة الاسم باللغة العربية</small>
 
         <label>رقم التليفون <span class="required">*</span></label>
-        <input id="phone" 
-        placeholder="01xxxxxxxxx" 
-        inputmode="numeric"
-        pattern="^\+?[0-9]{11,}$"
-        minlength="11"
-        maxlength="18"
-        required>
+        <input id="phone"
+          placeholder="01xxxxxxxxx"
+          inputmode="numeric"
+          pattern="^\+?[0-9]{11,}$"
+          minlength="11"
+          maxlength="18"
+          required>
 
-        <label>هل الشقة بها مستأجر؟ </label>
-        <div class="radio-group">
-          <label><input type="radio" name="rented" value="yes"> نعم</label>
-          <label><input type="radio" name="rented" value="no"> لا</label>
+        <label>الحالة</label>
+        <div class="status-pills">
+          <label class="pill green">
+            <input type="radio" name="status" value="resident">
+            <span>مقيم</span>
+          </label>
+
+          <label class="pill blue">
+            <input type="radio" name="status" value="tenant">
+            <span>بها مستأجر</span>
+          </label>
+
+          <label class="pill gray">
+            <input type="radio" name="status" value="other">
+            <span>غير مقيم</span>
+          </label>
+        </div>
+
+        <!-- NEW: Gates -->
+        <label>هل تم المشاركة في تركيب البوابات؟</label>
+        <div class="status-pills">
+          <label class="pill green">
+            <input type="radio" name="gatesPaid" value="yes">
+            <span>نعم</span>
+          </label>
+
+          <label class="pill red">
+            <input type="radio" name="gatesPaid" value="no">
+            <span>لا</span>
+          </label>
+        </div>
+        <div id="gatesAmountWrap" class="hidden">
+          <label>المبلغ المدفوع للبوابات</label>
+          <input id="gatesAmount" inputmode="numeric" placeholder="مثال: 500">
+        </div>
+
+        <!-- NEW: Other -->
+        <label>هل تم دفع أي مبالغ أخرى؟</label>
+        <div class="status-pills">
+          <label class="pill green">
+            <input type="radio" name="otherPaid" value="yes">
+            <span>نعم</span>
+          </label>
+
+          <label class="pill red">
+            <input type="radio" name="otherPaid" value="no">
+            <span>لا</span>
+          </label>
+        </div>
+        <div id="otherAmountWrap" class="hidden">
+          <label>المبلغ المدفوع (أخرى)</label>
+          <input id="otherAmount" inputmode="numeric" placeholder="مثال: 200">
         </div>
 
         <button type="submit">تسجيل</button>
@@ -62,6 +106,69 @@
       </div>
     </div>
 
+    <!-- NEW: Edit Overlay -->
+    <div id="editOverlay" class="overlay hidden">
+      <div class="modal" style="max-width:520px;">
+        <h3 style="margin-top:0;">تعديل البيانات</h3>
+
+        <form id="editForm">
+          <label>الشقق (اكتبهم مفصولين بمسافة أو فاصلة)</label>
+          <input id="editFlats" placeholder="مثال: F101 F102">
+
+          <label>اسم المالك</label>
+          <input id="editName" placeholder="مثال: أحمد محمد" required>
+
+          <label>رقم التليفون</label>
+          <input id="editPhone" placeholder="01xxxxxxxxx" inputmode="numeric" required>
+
+          <label>الحالة</label>
+          <div class="status-pills">
+            <label class="pill">
+              <input type="radio" name="editStatus" value="resident">
+              <span>مقيم</span>
+            </label>
+
+            <label class="pill">
+              <input type="radio" name="editStatus" value="tenant">
+              <span>بها مستأجر</span>
+            </label>
+
+            <label class="pill">
+              <input type="radio" name="editStatus" value="other">
+              <span>غير مقيم</span>
+            </label>
+          </div>
+
+          <label>هل تم المشاركة في تركيب البوابات؟</label>
+          <div class="radio-group">
+            <label><input type="radio" name="editGatesPaid" value="yes"> نعم</label>
+            <label><input type="radio" name="editGatesPaid" value="no" checked> لا</label>
+          </div>
+          <div id="editGatesAmountWrap" class="hidden">
+            <label>المبلغ المدفوع للبوابات</label>
+            <input id="editGatesAmount" inputmode="numeric" placeholder="مثال: 500">
+          </div>
+
+          <label>هل تم دفع أي مبالغ أخرى؟</label>
+          <div class="radio-group">
+            <label><input type="radio" name="editOtherPaid" value="yes"> نعم</label>
+            <label><input type="radio" name="editOtherPaid" value="no" checked> لا</label>
+          </div>
+          <div id="editOtherAmountWrap" class="hidden">
+            <label>المبلغ المدفوع (أخرى)</label>
+            <input id="editOtherAmount" inputmode="numeric" placeholder="مثال: 200">
+          </div>
+
+          <div style="display:flex; gap:10px; margin-top:14px;">
+            <button type="submit" style="flex:1;">حفظ التعديل</button>
+            <button id="cancelEditBtn" type="button" style="flex:1;">إلغاء</button>
+          </div>
+
+          <small id="editError" class="error" style="display:none; margin-top:10px;"></small>
+        </form>
+      </div>
+    </div>
+
     <div id="stats" class="stats">
       <span id="totalCount"></span>
       <span id="registeredCount"></span>
@@ -71,8 +178,8 @@
     <div class="card list-card">
       <div class="export-buttons">
         <button id="exportExcel">Export as Excel</button>
-        <!-- <button id="exportPdf">Export as PDF</button> -->
       </div>
+
       <h2>الشقق المسجلة</h2>
       <ul id="list"></ul>
     </div>
